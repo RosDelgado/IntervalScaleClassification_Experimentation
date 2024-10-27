@@ -4,7 +4,9 @@ This repository focuses on the real-world application of the interval-scale meas
 
 "Adapting Ordinal Performance Metrics for Interval Scale: Length Matters" by G. Binotto and R. Delgado (preprint, 2024)
 
-for evaluation and as error functions for hyper-parameters tuning in classification (Section 5). 
+for evaluation and as error functions for hyper-parameters tuning in classification with the dataset
+https://www.kaggle.com/datasets/frabbisw/facial-age
+(Section 5). 
 
 It complements the content in https://github.com/giuliabinotto/ IntervalScaleClassification, which correspond to Section 4 fot the same paper, where scripts facilitate the computation of two ordinal metrics, Mean Absolute Error (MAE) and Total Cost (TC), alongside their interval scale counterparts introduced in the paper, with a specific section designed to address scenarios in which the rightmost interval is unbounded.
 
