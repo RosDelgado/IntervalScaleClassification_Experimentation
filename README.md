@@ -12,32 +12,38 @@ It complements the content in https://github.com/giuliabinotto/ IntervalScaleCla
 
 # Description
 ## From_png_to_dataframe.R 
-script allows to load face files (.png) and transform then into a dataframe, with face pictures by row, with 32x32+1=1025 columns, the last one being "age", while the others are V1,..., V1024.The dataframe is save as "faces.grey.32.Rda".
+This script allows to load face files (.png) obtained from https://www.kaggle.com/datasets/frabbisw/facial-age
+and transform them into a dataframe, with 9,673 rows corresponding to face pictures, and 32x32+1=1025 columns, 
+the last one being "age", while the others are the features V1,..., V1024. The dataframe is save as "faces.grey.32.Rda".
 
-The train_caret_rf.R script loads "faces.grey.32.Rda" and develops the experimental phase by tuning hyper-parameter mtry for random forest.
+## train_caret_rf.R 
+This script loads "faces.grey.32.Rda" and develops the experimental phase explained in Section 5 of the paper, corresponding 
+use the interval-scale metrics to tuning hyper-parameter mtry for random forest using the caret library. 
 
-The tune_control_e1071_knn.R the same, with hyper-parameter k for k-nearest neighbors (knn).
+## tune_control_e1071_knn.R 
+This script is similar to the previous one, but corresponds to tuning hyper-parameter k for k-nearest neighbors (knn) using e1071 library.
 
 # Requirements
+## General R libraries
 The following libraries are needed: 
 
-From_png_to_dataframe.R uses: magick, stringr, mdatools, png, utils.
+magick, stringr, mdatools, png and utils (used by "From_png_to_dataframe.R")
 
-train_caret_rf.R uses: arules (for discretize function), and caret. 
+arules (used by "train_caret_rf.R" and "tune_control_e1071.R")
 
-tune_control_e1071_knn.R uses: arules (for discretize function), e1071 and class.
+caret (used by "train_caret_rf.R")
 
-The following scripts are needed: 
+e1071 and class (used by "tune_control_e1071.R")
 
-mat_square.R: converts any matrix in a square matrix with desired row/column labels, by adding zeros if needed.
+## Specific R scripts
+
+mat_square.R (introduced here): converts any matrix in a square matrix with desired row/column labels, by adding zeros if needed.
 
 From https://github.com/giuliabinotto/ IntervalScaleClassification
 
 MAE.R: computes MAE and normalized SMAE metrics.
 
 MAEintervals.R: computes MAE.int and SMAE.int metrics. 
-
-
 
 # Authors
 Giulia Binotto & Rosario Delgado (Universitat Autònoma de Barcelona, Spain, 2024).
