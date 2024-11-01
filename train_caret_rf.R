@@ -23,8 +23,6 @@
 
 
 source("mat_square.R")
-source("BD_OC_MAE.R")
-source("BD_OC_MAEintervals.R")
 
 library(arules)   # for "discretize" function
 library(doParallel)
