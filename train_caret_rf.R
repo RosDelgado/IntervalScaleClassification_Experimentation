@@ -1,3 +1,15 @@
+###########################################
+###########################################
+#
+#  EXPERIMENTAL PHASE (Section 5)
+#
+# Tuning random forest with caret
+#
+# Data set: face_age
+#
+#
+#
+#
 ########################################
 ############   train function, from caret library
 ############
