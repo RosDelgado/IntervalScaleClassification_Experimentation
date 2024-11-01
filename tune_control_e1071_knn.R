@@ -3,7 +3,7 @@
 #
 #  EXPERIMENTAL PHASE (Section 5)
 #
-# Tuning knn t with e1071
+# Tuning knn with e1071
 #
 # Data set: face_age
 #
