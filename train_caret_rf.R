@@ -14,11 +14,9 @@ source("mat_square.R")
 source("BD_OC_MAE.R")
 source("BD_OC_MAEintervals.R")
 
-library(arules)   # para funcion "discretize".
+library(arules)   # for "discretize" function
 library(doParallel)
 registerDoParallel(cores=6)
-
-
 
 load("faces.grey.32.Rda")  # load dataframe "db.faces.grey.32"
 df<-db.faces.grey.32
@@ -27,10 +25,7 @@ str(df)
 
 # #####  variable "age": binning to "age.bin", with 5 intervals
 # 
-# xxx <- arules::discretize(df$age, breaks=5, method = "frequency")
-# xxx
 
-#cut.points<-c(0,20,40,60,80,1000)
 cut.points<-c(0,2,10,15,35,60,1000)
 
 age.bin <- arules::discretize(df$age, method = "fixed", breaks=cut.points, infinity=TRUE)
@@ -51,35 +46,11 @@ levels.age.ordinal.encod<-unique(as.numeric(df$age.bin))
 df$age.bin.num<-as.numeric(df$age.bin)
 table(df$age.bin)
 
-df$age.bin.num.factor<-as.factor(df$age.bin.num)   # necesitamos las clases en numero pero tipo factor
+df$age.bin.num.factor<-as.factor(df$age.bin.num)   # we need classes as number but factor 
 
 ################################################################################
 ####### Error functions for summaryFunction argument, trainControl function
 #######
-standard.MAE.ord<-function(y,z)   # y = true, z = predicted
-{Conf.mat<- mat.square(table(as.numeric(z),as.numeric(y)),levels.age.ordinal.encod)
-value<-SMAE(Conf.mat)
-value
-}
-
-
-# v<-c(0,2,10,15,35,60,100)  # intervals endpoints (assume the last one is 100)
-v.80<-c(0,2,10,15,35,60,80)
-
-Len.80<-leng(v.80)  # intervals lengths
-
-
-standard.MAE.int.80<-function(y,z)   # y = true, z = predicted
-{Conf.mat<-mat.square(table(as.numeric(z),as.numeric(y)),levels.age.ordinal.encod)
-value<-SMAE.int(Conf.mat,Len.80)
-value
-}
-
-
-
-
-
-
 
 standard.MAE.ord<-function(data,lev=levels.age.ordinal.encod,model=NULL)
   # data=dataframe with columns "obs" and "pred" of character/factor type
@@ -103,6 +74,20 @@ c(MAE.int.80 = value)
 }
 
 #########
+v.90<-c(0,2,10,15,35,60,90) # intervals endpoints (assume the last one is 90)
+
+Len.90<-leng(v.90)  # intervals lengths
+
+standard.MAE.int.90<-function(data,lev=levels.age.ordinal.encod,model=NULL)
+  # data=dataframe with columns "obs" and "pred" of character/factor type
+  # lev=character string with outcome factor levels
+{Conf.mat<-mat.square(table(as.numeric(data$pred),as.numeric(data$obs)),lev)
+value<-SMAE.int(Conf.mat,Len.90)
+c(MAE.int.90 = value)
+}
+
+
+#########
 v.100<-c(0,2,10,15,35,60,100) # intervals endpoints (assume the last one is 100)
 
 Len.100<-leng(v.100)  # intervals lengths
@@ -115,7 +100,19 @@ value<-SMAE.int(Conf.mat,Len.100)
 c(MAE.int.100 = value)
 }
 
-#
+#########
+v.110<-c(0,2,10,15,35,60,110) # intervals endpoints (assume the last one is 110)
+
+Len.110<-leng(v.110)  # intervals lengths
+
+standard.MAE.int.110<-function(data,lev=levels.age.ordinal.encod,model=NULL)
+  # data=dataframe with columns "obs" and "pred" of character/factor type
+  # lev=character string with outcome factor levels
+{Conf.mat<-mat.square(table(as.numeric(data$pred),as.numeric(data$obs)),lev)
+value<-SMAE.int(Conf.mat,Len.110)
+c(MAE.int.110 = value)
+}
+
 #########
 v.120<-c(0,2,10,15,35,60,120) # intervals endpoints (assume the last one is 120)
 
@@ -128,12 +125,6 @@ standard.MAE.int.120<-function(data,lev=levels.age.ordinal.encod,model=NULL)
 value<-SMAE.int(Conf.mat,Len.120)
 c(MAE.int.120 = value)
 }
-
-
-
-
-
-
 
 #
 #
@@ -163,11 +154,6 @@ for (i in 1:10)
   random.sampl<-sample(which(fold!=i),2000,replace=FALSE)
   sub.train[[i]]<-df[random.sampl,]}
 
-# for (i in 1:10)
-# {set.seed(12345)
-#   random.sampl<-sample(which(fold==i),200,replace=FALSE)
-#   sub.test[[i]]<-df[random.sampl,]}
-
 ################################################################################
 ################################################################################
 ########## caret::train. Resampling method: cross-validation
@@ -181,8 +167,6 @@ fitControl.Accuracy <- trainControl(
   method = "cv",
   number = 3,
   search="random")
-
-
 
 fitControl.MAE <- trainControl(
                            method = "cv",
@@ -198,6 +182,13 @@ fitControl.MAE.int.80 <- trainControl(
                                ## the following function
                                summaryFunction = standard.MAE.int.80)
 
+fitControl.MAE.int.90 <- trainControl(
+  method = "cv",
+  number = 3,
+  ## Evaluate performance using 
+  ## the following function
+  summaryFunction = standard.MAE.int.90)
+
 fitControl.MAE.int.100 <- trainControl(
   method = "cv",
   number = 3,
@@ -205,6 +196,12 @@ fitControl.MAE.int.100 <- trainControl(
   ## the following function
   summaryFunction = standard.MAE.int.100)
 
+fitControl.MAE.int.110 <- trainControl(
+  method = "cv",
+  number = 3,
+  ## Evaluate performance using 
+  ## the following function
+  summaryFunction = standard.MAE.int.110)
 
 fitControl.MAE.int.120 <- trainControl(
   method = "cv",
@@ -217,7 +214,9 @@ fitControl.MAE.int.120 <- trainControl(
 tuned.rf.caret.Accuracy<-list()
 tuned.rf.caret.MAE<-list()
 tuned.rf.caret.MAE.int.80<-list()
+tuned.rf.caret.MAE.int.90<-list()
 tuned.rf.caret.MAE.int.100<-list()
+tuned.rf.caret.MAE.int.110<-list()
 tuned.rf.caret.MAE.int.120<-list()
 
 for (i in 1:10)
@@ -225,7 +224,6 @@ for (i in 1:10)
   tuned.rf.caret.Accuracy[[i]] <- caret::train(sub.train[[i]][ ,-c(1025:1028)], 
                                                  sub.train[[i]][ ,1028], 
                                                  method="rf", 
-                                                 # tuneLength = 10, 
                                                  metric="Accuracy",
                                                  tuneLength=10,
                                                  trControl=fitControl.Accuracy)
