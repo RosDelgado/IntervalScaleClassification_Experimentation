@@ -597,7 +597,7 @@ SMAE.int.all<-c(SMAE.int.80.M.MAE.int.80,
                     SMAE.int.90.M.MAE.int.90,
                     SMAE.int.100.M.MAE.int.100,
                     SMAE.int.110.M.MAE.int.110,
-                    SMAE.int.120.M.MAE.int.120,)
+                    SMAE.int.120.M.MAE.int.120)
 
 p1<-shapiro.test(SMAE.int.80.M.MAE.int.80)$p.value
 p2<-shapiro.test(SMAE.int.90.M.MAE.int.90)$p.value
