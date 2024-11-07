@@ -11,8 +11,6 @@
 ### Dataframe is save as "faces.grey.32.Rda", 
 ###             also as "faces.grey.32.csv"
 ###
-### At Dades_FACES > face_age > Grey_pictures
-###
 ######################################
 ######################################
 
@@ -31,21 +29,18 @@ folds.num<-c(1:93,95,96,99,100,101,110)  # = ages
 Folder<-vector()
 for (i in 1:9)
 {
-Folder[i] <- paste("~/Desktop/NEW_INVESTIGATION/ARTICULOS_Giulia/Metrics_ordinal_classification_ENVIADO_ML_2024_05_16/Machine_Learning_1a_REVISION/Dades_FACES/face_age/00",
-                folds.num[i],sep="")
+Folder[i] <- paste("face_age/00",folds.num[i],sep="")
 }
 
 for (i in 10:96)
 {
-  Folder[i] <- paste("~/Desktop/NEW_INVESTIGATION/ARTICULOS_Giulia/Metrics_ordinal_classification_ENVIADO_ML_2024_05_16/Machine_Learning_1a_REVISION/Dades_FACES/face_age/0",
-                     folds.num[i],sep="")
+  Folder[i] <- paste("face_age/0",folds.num[i],sep="")
 }
 
 
 for (i in 97:99)
 {
-  Folder[i] <- paste("~/Desktop/NEW_INVESTIGATION/ARTICULOS_Giulia/Metrics_ordinal_classification_ENVIADO_ML_2024_05_16/Machine_Learning_1a_REVISION/Dades_FACES/face_age/",
-                     folds.num[i],sep="")
+  Folder[i] <- paste("face_age/",folds.num[i],sep="")
 }
 
 ##
@@ -81,14 +76,6 @@ for (i in 1:99)
 }
 
 
-# # reduce to 64 x 64 pixels
-# imgs.64<-list()
-# for (i in 1:99)
-# {
-# imgs.64[[i]]<-magick::image_scale(imgs[[i]],"64x64!")
-# }
-
-
 # reduce to 32 x 32 pixels  
 imgs.32<-list()
 for (i in 1:99)
@@ -96,11 +83,8 @@ for (i in 1:99)
   imgs.32[[i]]<-magick::image_scale(imgs[[i]],"32x32!")
 }
 
-# set working directory at: 
-# "~/Desktop/NEW_INVESTIGATION/ARTICULOS_Giulia/
-# Metrics_ordinal_classification_ENVIADO_ML_2024_05_16/Machine_Learning_1a_REVISION/
-# Dades_FACES/face_age/Grey_pictures" 
-# and save the reduced images as .png
+
+# Save the reduced images as .png
 
 for (i in 1:99)
 {
@@ -110,7 +94,7 @@ magick::image_write(imgs.32[[i]][j], paste("reduced_32x32_",picture.number[[i]][
 }
 }
 
-# "reduced_number" are images reduced at 64 x 64 pixels
+# "reduced_number" are images reduced at 32 x 32 pixels
 
 
 # Reading again as .png with png package
@@ -126,6 +110,7 @@ faces.small.32[[i]][[j]] <- png::readPNG(paste("reduced_32x32_",picture.number[[
 
 ### Be careful! Grey images have no RGB scales and then they provoke errors!
 ### We delete them (very few)
+
 for (i in 1:99)
 {
 for (j in 0:(length(imgs[[i]])-1))
