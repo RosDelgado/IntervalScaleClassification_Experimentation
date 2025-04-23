@@ -4,8 +4,7 @@ This repository focuses on the real-world application of the interval-scale meas
 
 # Adapting performance metrics for ordinal classification to interval scale: length matters 
 ## by G. Binotto and R. Delgado
-## Mach Learn 114, 41 (2025)
-https://doi.org/10.1007/s10994-024-06654-4
+## Mach Learn 114, 41 (2025) https://doi.org/10.1007/s10994-024-06654-4
 
 for evaluation and as metrics/error functions for hyper-parameter tuning in classification (experiments in Section 5 of the paper).
 We consider three real-world datasets: 
